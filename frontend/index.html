@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur d'Accessibilité des Couleurs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="css/index.css" rel="stylesheet">
+</head>
+<body>
+    <!-- SVG Filters pour les simulations de déficiences visuelles -->
+    <svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <!-- Protanopie (absence de cônes rouges) -->
+            <filter id="protanopia">
+                <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0, 0.558, 0.442, 0, 0, 0, 0, 0.242, 0.758, 0, 0, 0, 0, 0, 1, 0"/>
+            </filter>
+            
+            <!-- Deutéranopie (absence de cônes verts) -->
+            <filter id="deuteranopia">
+                <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0, 0.7, 0.3, 0, 0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0, 1, 0"/>
+            </filter>
+            
+            <!-- Tritanopie (absence de cônes bleus) -->
+            <filter id="tritanopia">
+                <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0, 0, 0.433, 0.567, 0, 0, 0, 0.475, 0.525, 0, 0, 0, 0, 0, 1, 0"/>
+            </filter>
+            
+            <!-- Achromatopsie (vision en noir et blanc) -->
+            <filter id="achromatopsia">
+                <feColorMatrix type="matrix" values="0.299, 0.587, 0.114, 0, 0, 0.299, 0.587, 0.114, 0, 0, 0.299, 0.587, 0.114, 0, 0, 0, 0, 0, 1, 0"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800 mb-3">Simulateur d'Accessibilité des Couleurs</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Testez vos palettes de couleurs pour différentes déficiences visuelles et vérifiez leur conformité aux normes WCAG d'accessibilité.</p>
+        </header>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="flex flex-wrap gap-4 mb-6">
+                <button id="tab-palette" class="tab-button active bg-gray-100 hover:bg-gray-200">Palette prédéfinie</button>
+                <button id="tab-custom" class="tab-button bg-gray-100 hover:bg-gray-200">Couleurs personnalisées</button>
+                <button id="tab-generator" class="tab-button bg-gray-100 hover:bg-gray-200">Générateur de palette</button>
+            </div>
+
+            <div id="content-palette" class="tab-content active">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- Bleu -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow">
+                        <div class="color-box mb-4" style="background-color: #3366CC; color: white;">
+                            <span class="font-semibold text-lg">Bleu #3366CC</span>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">Simulations:</h3>
+                            <div class="simulation-box protanopia" style="background-color: #3366CC;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Protanopie</p>
+                            
+                            <div class="simulation-box deuteranopia" style="background-color: #3366CC;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Deutéranopie</p>
+                            
+                            <div class="simulation-box tritanopia" style="background-color: #3366CC;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Tritanopie</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">Conformité WCAG:</h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="wcag-badge wcag-pass">AA - Texte: ✓</span>
+                                <span class="wcag-badge wcag-fail">AAA - Texte: ✗</span>
+                            </div>
+                            <p class="text-sm text-gray-600">Contraste avec blanc: <strong>4.7:1</strong></p>
+                            <p class="text-sm text-gray-600">Contraste avec noir: <strong>5.8:1</strong></p>
+                        </div>
+                        <div class="suggestion-box">
+                            <h3 class="font-medium mb-2">Suggestion:</h3>
+                            <p class="text-sm">Pour AAA, essayez <span class="font-semibold">#1a4fa8</span> pour un meilleur contraste.</p>
+                            <div class="h-8 w-full rounded mt-2" style="background-color: #1a4fa8;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Orange -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow">
+                        <div class="color-box mb-4" style="background-color: #FF9900; color: black;">
+                            <span class="font-semibold text-lg">Orange #FF9900</span>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">Simulations:</h3>
+                            <div class="simulation-box protanopia" style="background-color: #FF9900;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Protanopie</p>
+                            
+                            <div class="simulation-box deuteranopia" style="background-color: #FF9900;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Deutéranopie</p>
+                            
+                            <div class="simulation-box tritanopia" style="background-color: #FF9900;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Tritanopie</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">Conformité WCAG:</h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="wcag-badge wcag-fail">AA - Texte: ✗</span>
+                                <span class="wcag-badge wcag-fail">AAA - Texte: ✗</span>
+                            </div>
+                            <p class="text-sm text-gray-600">Contraste avec blanc: <strong>1.8:1</strong></p>
+                            <p class="text-sm text-gray-600">Contraste avec noir: <strong>11.6:1</strong></p>
+                        </div>
+                        <div class="suggestion-box">
+                            <h3 class="font-medium mb-2">Suggestion:</h3>
+                            <p class="text-sm">Pour AA avec texte blanc, essayez <span class="font-semibold">#cc7a00</span>.</p>
+                            <div class="h-8 w-full rounded mt-2" style="background-color: #cc7a00;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Vert -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow">
+                        <div class="color-box mb-4" style="background-color: #66CC33; color: black;">
+                            <span class="font-semibold text-lg">Vert #66CC33</span>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">Simulations:</h3>
+                            <div class="simulation-box protanopia" style="background-color: #66CC33;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Protanopie</p>
+                            
+                            <div class="simulation-box deuteranopia" style="background-color: #66CC33;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Deutéranopie</p>
+                            
+                            <div class="simulation-box tritanopia" style="background-color: #66CC33;"></div>
+                            <p class="text-sm text-gray-600 mb-2">Tritanopie</p>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">Conformité WCAG:</h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <span class="wcag-badge wcag-fail">AA - Texte: ✗</span>
+                                <span class="wcag-badge wcag-fail">AAA - Texte: ✗</span>
+                            </div>
+                            <p class="text-sm text-gray-600">Contraste avec blanc: <strong>1.9:1</strong></p>
+                            <p class="text-sm text-gray-600">Contraste avec noir: <strong>11.1:1</strong></p>
+                        </div>
+                        <div class="suggestion-box">
+                            <h3 class="font-medium mb-2">Suggestion:</h3>
+                            <p class="text-sm">Pour AA avec texte blanc, essayez <span class="font-semibold">#4d9926</span>.</p>
+                            <div class="h-8 w-full rounded mt-2" style="background-color: #4d9926;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                    <h3 class="font-medium text-blue-800 mb-2">Impact des déficiences visuelles sur cette palette</h3>
+                    <p class="text-sm text-blue-700 mb-2"><strong>Deutéranopie et Protanopie:</strong> Le bleu et le vert peuvent être difficiles à distinguer. L'orange apparaît plus jaunâtre.</p>
+                    <p class="text-sm text-blue-700 mb-2"><strong>Tritanopie:</strong> Le bleu peut apparaître plus verdâtre, et l'orange plus rougeâtre.</p>
+                    <p class="text-sm text-blue-700"><strong>Recommandation:</strong> Augmenter les contrastes et éviter de combiner bleu et vert pour transmettre des informations importantes.</p>
+                </div>
+            </div>
+
+            <div id="content-custom" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4">Sélectionnez vos couleurs</h2>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Couleur de fond</label>
+                            <div class="flex items-center gap-4">
+                                <input type="color" id="bg-color" value="#FFFFFF" class="shadow-sm">
+                                <input type="text" id="bg-color-hex" value="#FFFFFF" class="border rounded px-3 py-2 w-32">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Couleur du texte</label>
+                            <div class="flex items-center gap-4">
+                                <input type="color" id="text-color" value="#000000" class="shadow-sm">
+                                <input type="text" id="text-color-hex" value="#000000" class="border rounded px-3 py-2 w-32">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Taille du texte</label>
+                            <select id="text-size" class="border rounded px-3 py-2 w-full">
+                                <option value="text-xs">Très petit (12px)</option>
+                                <option value="text-sm">Petit (14px)</option>
+                                <option value="text-base" selected>Normal (16px)</option>
+                                <option value="text-lg">Grand (18px)</option>
+                                <option value="text-xl">Très grand (20px)</option>
+                                <option value="text-2xl">Énorme (24px)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Poids de la police</label>
+                            <select id="text-weight" class="border rounded px-3 py-2 w-full">
+                                <option value="font-light">Léger (300)</option>
+                                <option value="font-normal" selected>Normal (400)</option>
+                                <option value="font-medium">Moyen (500)</option>
+                                <option value="font-semibold">Semi-gras (600)</option>
+                                <option value="font-bold">Gras (700)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Niveau WCAG à vérifier</label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="wcag-level" value="AA" checked class="mr-2">
+                                    <span>AA (4.5:1)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="wcag-level" value="AAA" class="mr-2">
+                                    <span>AAA (7:1)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4">Aperçu et résultats</h2>
+                        
+                        <div id="preview-box" class="border rounded-lg p-6 mb-6 flex items-center justify-center" style="background-color: #FFFFFF; color: #000000; height: 150px;">
+                            <span id="preview-text" class="text-base font-normal">Texte d'exemple</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <h3 class="font-medium mb-2">Protanopie</h3>
+                                <div id="preview-protanopia" class="border rounded-lg p-4 flex items-center justify-center protanopia" style="background-color: #FFFFFF; color: #000000; height: 80px;">
+                                    <span class="text-base font-normal">Texte d'exemple</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium mb-2">Deutéranopie</h3>
+                                <div id="preview-deuteranopia" class="border rounded-lg p-4 flex items-center justify-center deuteranopia" style="background-color: #FFFFFF; color: #000000; height: 80px;">
+                                    <span class="text-base font-normal">Texte d'exemple</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium mb-2">Tritanopie</h3>
+                                <div id="preview-tritanopia" class="border rounded-lg p-4 flex items-center justify-center tritanopia" style="background-color: #FFFFFF; color: #000000; height: 80px;">
+                                    <span class="text-base font-normal">Texte d'exemple</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium mb-2">Achromatopsie</h3>
+                                <div id="preview-achromatopsia" class="border rounded-lg p-4 flex items-center justify-center achromatopsia" style="background-color: #FFFFFF; color: #000000; height: 80px;">
+                                    <span class="text-base font-normal">Texte d'exemple</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="contrast-result" class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium mb-2">Résultats d'accessibilité</h3>
+                            <p class="mb-2">Ratio de contraste: <strong id="contrast-ratio">21:1</strong></p>
+                            <div class="flex gap-2 mb-2">
+                                <span id="wcag-aa-normal" class="wcag-badge wcag-pass">AA Texte normal: ✓</span>
+                                <span id="wcag-aa-large" class="wcag-badge wcag-pass">AA Texte large: ✓</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span id="wcag-aaa-normal" class="wcag-badge wcag-pass">AAA Texte normal: ✓</span>
+                                <span id="wcag-aaa-large" class="wcag-badge wcag-pass">AAA Texte large: ✓</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-generator" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4">Générateur de palette accessible</h2>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Couleur de base</label>
+                            <div class="flex items-center gap-4">
+                                <input type="color" id="base-color" value="#3366CC" class="shadow-sm">
+                                <input type="text" id="base-color-hex" value="#3366CC" class="border rounded px-3 py-2 w-32">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Type de palette</label>
+                            <select id="palette-type" class="border rounded px-3 py-2 w-full">
+                                <option value="monochromatic">Monochromatique</option>
+                                <option value="analogous">Analogue</option>
+                                <option value="complementary">Complémentaire</option>
+                                <option value="triadic">Triadique</option>
+                                <option value="tetradic">Tétradique</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Niveau d'accessibilité</label>
+                            <select id="accessibility-level" class="border rounded px-3 py-2 w-full">
+                                <option value="AA">WCAG AA (4.5:1)</option>
+                                <option value="AAA">WCAG AAA (7:1)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Optimiser pour</label>
+                            <select id="optimize-for" class="border rounded px-3 py-2 w-full">
+                                <option value="all">Toutes les déficiences visuelles</option>
+                                <option value="protanopia">Protanopie</option>
+                                <option value="deuteranopia">Deutéranopie</option>
+                                <option value="tritanopia">Tritanopie</option>
+                            </select>
+                        </div>
+                        
+                        <button id="generate-palette" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors">
+                            Générer une palette accessible
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4">Palette générée</h2>
+                        
+                        <div id="generated-palette" class="grid grid-cols-1 gap-4 mb-6">
+                            <div class="bg-gray-50 p-4 rounded-lg text-center">
+                                <p class="text-gray-500 italic">Cliquez sur "Générer une palette accessible" pour créer une palette de couleurs</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-6 hidden" id="palette-info">
+                            <h3 class="font-medium mb-2">Informations sur la palette</h3>
+                            <p class="text-sm text-gray-600 mb-2">Type: <span id="info-type">-</span></p>
+                            <p class="text-sm text-gray-600 mb-2">Contraste minimum: <span id="info-contrast">-</span></p>
+                            <p class="text-sm text-gray-600">Optimisé pour: <span id="info-optimized">-</span></p>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="export-palette" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                                Exporter la palette
+                            </button>
+                            
+                            <button id="copy-palette" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M8 2a1 1 0 000 2h2a1 1 0 100-2H8z" />
+                                    <path d="M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z" />
+                                </svg>
+                                Copier les codes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">À propos de l'accessibilité des couleurs</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-medium mb-3">Déficiences visuelles</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <div class="bg-red-100 text-red-800 p-2 rounded-full mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium">Protanopie</p>
+                                <p class="text-sm text-gray-600">Absence ou déficience des cônes rouges. Difficulté à distinguer le rouge du vert et certaines nuances de bleu.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="bg-green-100 text-green-800 p-2 rounded-full mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium">Deutéranopie</p>
+                                <p class="text-sm text-gray-600">Absence ou déficience des cônes verts. Difficulté similaire à distinguer le rouge du vert.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="bg-blue-100 text-blue-800 p-2 rounded-full mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium">Tritanopie</p>
+                                <p class="text-sm text-gray-600">Absence ou déficience des cônes bleus. Difficulté à distinguer le bleu du jaune et certaines nuances de rose.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="bg-gray-100 text-gray-800 p-2 rounded-full mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium">Achromatopsie</p>
+                                <p class="text-sm text-gray-600">Vision totalement en noir et blanc. Très rare, mais importante à considérer pour une accessibilité maximale.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-medium mb-3">Normes WCAG</h3>
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2">Niveau AA</h4>
+                            <p class="text-sm text-gray-600 mb-2">Ratio de contraste minimum:</p>
+                            <ul class="list-disc list-inside text-sm text-gray-600 ml-2">
+                                <li>4.5:1 pour le texte normal</li>
+                                <li>3:1 pour le texte large (18pt ou 14pt gras)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2">Niveau AAA</h4>
+                            <p class="text-sm text-gray-600 mb-2">Ratio de contraste minimum:</p>
+                            <ul class="list-disc list-inside text-sm text-gray-600 ml-2">
+                                <li>7:1 pour le texte normal</li>
+                                <li>4.5:1 pour le texte large (18pt ou 14pt gras)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-blue-800 mb-2">Conseils pour une meilleure accessibilité</h4>
+                            <ul class="list-disc list-inside text-sm text-blue-700 ml-2">
+                                <li>Ne pas utiliser uniquement la couleur pour transmettre une information</li>
+                                <li>Ajouter des motifs, icônes ou textes pour renforcer le message</li>
+                                <li>Tester vos designs avec des simulateurs de déficiences visuelles</li>
+                                <li>Viser le niveau AAA pour une accessibilité optimale</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<link href="css/index.js" rel="stylesheet">
+<script src="js/index.js"></script>
+</body>
+</html>
