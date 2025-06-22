@@ -1,4 +1,4 @@
-# ColorContrastLab
+### ColorContrastLab
 
 ColorContrastLab est un simulateur d’accessibilité des couleurs permettant de tester des palettes pour différentes déficiences visuelles et de vérifier leur conformité aux normes WCAG.
 
